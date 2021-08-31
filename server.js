@@ -6,10 +6,12 @@ const app = express();
 // Middleware
 app.use(express.json()); // parse json bodies in the request object
 
-// Redirect requests to endpoint starting with /posts to postRoutes.js
-// app.use("/posts", require("./routes/postRoutes"));
 
-// Global Error Handler. IMPORTANT function params MUST start with err
+app.use("/users", require("./routes/userRoutes"));
+app.use("/projects", require("./routes/projectRoutes"));
+app.use("/tasks", require("./routes/taskRoutes"));
+
+
 app.use((err, req, res, next) => {
   console.log(err.stack);
   console.log(err.name);
@@ -21,5 +23,5 @@ app.use((err, req, res, next) => {
 });
 
 // Listen on pc port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000 ;
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
