@@ -1,10 +1,33 @@
-require('dotenv').config();
-const mysql= require("mysql2")
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
+const mssql=require('mssql')
+let config = {
+    server: process.env.DB_HOST,
     user: process.env.DB_USER,
     database:process.env.DB_NAME,
     password:process.env.DB_PASSWORD
-}
-)
-module.exports= pool.promise();  
+   ,
+  
+    options: {
+   
+       encrypt: false,
+       enableArithAbort: true
+    },
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    }
+    }
+
+mssql.connect(config).then(pool =>{
+
+    if(pool.connecting){
+        console.log('connecting to the database')
+    }
+
+    if(pool.connected){
+        console.log("connected")
+    }
+}).catch(e=>console.log(e))
+
+
+

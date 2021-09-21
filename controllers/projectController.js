@@ -1,73 +1,96 @@
+const { add } = require('lodash')
+const sql= require('mssql')
+const db = require("../config/db")
 
-const Project = require("../models/Project");
 
- exports.getProjects= async (req,res,next)=>{
+
+async function getprojects(){
     try {
-    const [project,_]= await Project.findAllProject();
-    res.status(200).json({project})
-
+        let pool= await sql.connect(db)
+        let projects= await pool.request().
+        execute('getProjects')
+        return projects.recordsets
     } catch (error) {
+        console.log(error)
+        
+    }
+}
+
+async function getSpecificProject(projectid){
+    try {
+        let pool= await sql.connect(db)
+        let projects= await pool.request()
+        .input('id', sql.Int, projectid)
+        .execute('getSpecificProject')
+        //.query("select * from Projects where projectid=@input_parameter")
+        return projects.recordsets
+    } catch (error) {
+        console.log(error)
         
     }
 }
 
 
-
- exports.addnewProject=async(req,res,next)=>{
+async function deleteProject(projid){
     try {
-        let{projectname ,projectduration,email}= req.body;
-        let project= new Project( projectname,projectduration ,email )
-        project= await project.addProject()
-        res.status(201).json({message: "Project Created"});
-        
-    } catch (error) {
+        let pool= await sql.connect(db)
+        let project= await pool.request()
+        .input('id', sql.Int, projid)
+        .execute('deleteProject')
 
-        res.status(500).json({Message: "User already has a project use a different Email please"});
+        //.query("delete from Projects where projectid=@input_parameter")
+        return project.recordsets
+    } catch (error) {
+        console.log(error)
         
     }
 }
 
 
-
-exports.searchProject=async(req,res,next)=>{
+async function updateProject(projectid,project){
     try {
-        let projectid=req.params.id;
-        let[project,_]=await Project.findProject(projectid)
-        res.status(200).json({project})
+        let pool= await sql.connect(db)
+        let projects= await pool.request()
+        .input('id', sql.Int, projectid)
+        .input('projectname',sql.VarChar,project.projectname)
+        .input('projectduration',sql.VarChar,project.projectduration)
+        .input('email',sql.VarChar,project.email)
+        .execute('updateProject')
+        
+        // .query(`UPDATE Projects SET  projectname ='${projectname}'
+        //  ,projectduration ='${projectduration}',email ='${email}'
+        //   WHERE projectid = @input_parameter`)
+        return projects.recordsets
     } catch (error) {
-        res.status(500).json({Message: "Recheck your id if it exists"});
-        
-    }
- 
-}
-
-exports.deleteProject=async(req,res,next)=>{
-
-    try {
-        let projectid=req.params.id;
-        let[project,_]=await Project.deleteProject(projectid)
-        res.status(201).json({message:"Project Deleted"})
-        
-    } catch (error) {
-        res.status(500).json({Message: "Recheck your id if it exists"});
-        next(error)
-        
-    }
-  
-}
-
-exports.updateProject = async(req,res)=>{
-    try {
-
-        let updateid = req.params.id;
-        
-        let { projectname, projectduration, email} = req.body;
-        await Project.updateProject(updateid,projectname, projectduration, email)
-        res.status(201).json({ message: "Project  updated  successfully" })
-
-    } catch (error) {
-
-        res.status(201).json({ message: error.message })
+        console.log(error)
         
     }
 }
+
+
+async function addProject(project){
+    try {
+        let pool= await sql.connect(db)
+        let projects= await pool.request()
+        .input('projectname',sql.VarChar,project.projectname)
+        .input('projectduration',sql.VarChar,project.projectduration)
+        .input('email',sql.VarChar,project.email)
+        .execute('addProject')
+        //.query('INSERT INTO Projects(projectname,projectduration,email) VALUES( @projectname, @projectduration, @email)')
+        return projects.recordsets
+        
+    } catch (error) {
+        console.log(error)
+        Json({ message: error.message })
+        
+    }
+    
+}
+
+module.exports={
+    getprojects:getprojects,
+    getSpecificProject:getSpecificProject,
+    deleteProject:deleteProject,
+    updateProject:updateProject,
+    addProject:addProject
+} 
