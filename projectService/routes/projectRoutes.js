@@ -57,17 +57,22 @@ router.route("/:id").delete((req,res)=>{
 })
 
 router.route("/").post((req,res)=>{
+    console.log(req.body);
      try {
         let project= { ...req.body} ;
 
-        projectController.addProject(project).then(result=>{
-        res.status(201).json('Project CREATED')
+        projectController.addProject(project).then(result => {
+            res.status(201).json('Project CREATED')
         
-     })
+        })
          
      } catch (error) {
 
-        console.log(error)
+       console.log('THE ERROR IS ', error);
+
+        // if(error.ErrorMessageToken.message) return res.status(403).json({ message: 'User already allocated a project!' })
+    //     res.status(403).json({ Message: "User already Exist use a different Email please" });
+    //    console.log ('THE ERROR IS ', error.Message)
          
      }
  

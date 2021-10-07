@@ -7,13 +7,9 @@ const app = express();
 app.use(express.json()); // parse json bodies in the request object
 app.use(cors())
 
-app.get('/test',function(res,req){
-  res.send('Hello form here')
-})
 
 app.use("/users", require("./routes/userRoutes"));
-app.use("/projects", require("./routes/projectRoutes"));
-app.use("/tasks", require("./routes/taskRoutes"));
+
 
 
 app.use((err, req, res, next) => {
@@ -26,6 +22,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Listen on pc port
-const PORT = 5001 ;
+const PORT = 8000 ;
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
