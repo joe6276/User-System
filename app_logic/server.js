@@ -9,6 +9,7 @@ app.use(cors())
 
 
 app.use("/projects", require("./routes/projectRoutes"));
+app.use("/tasks", require("./routes/taskRoutes"));
 
 
 // Listen on  port
