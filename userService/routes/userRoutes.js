@@ -1,12 +1,14 @@
 const express = require('express')
-const userController= require("../controllers/userControllers")
+const user= require("../controllers/user")
+
+const auth= require("../controllers/auth")
 const router=express.Router();
 const jwt = require("jsonwebtoken")
 require('dotenv').config();
 
 router.route("/").get((req,res)=>{
     try {
-        userController.getUsers().then(result=>{
+        user.getUsers().then(result=>{
             res.json(result[0])
          })
     } catch (error) {
@@ -19,7 +21,7 @@ router.route("/").get((req,res)=>{
 router.route("/:id").get((req,res)=>{
 
     try {
-        userController.getSpecificUser(req.params.id).then(result=>{
+        user.getSpecificUser(req.params.id).then(result=>{
             res.json(result[0])
          })
     } catch (error) {
@@ -29,10 +31,14 @@ router.route("/:id").get((req,res)=>{
 })
 
 
+
+router.post('/signin', auth.loginUser)
+
+
 router.route("/:id").delete((req,res)=>{
 
     try {
-        userController.deleteUser(req.params.id).then(result=>{
+        user.deleteUser(req.params.id).then(result=>{
             res.status(201).json("User deleted")
          })
     } catch (error) {
@@ -47,7 +53,7 @@ router.route("/:id").delete((req,res)=>{
      try {
          
         let user= { ...req.body} ;
-        userController.updateUser(req.params.id,user).then(result=>{
+        user.updateUser(req.params.id,user).then(result=>{
         res.status(201).json('USER Updated')
      })
      } catch (error) {
@@ -61,12 +67,11 @@ router.route("/signup").post((req,res)=>{
      try {
         let user= { ...req.body} ;
 
-        userController.addUser(user).then(result=>{
-        res.status(201).json('USER CREATED')
+      auth.addUser(user).then(result=>{
         
-        // const token =  jwt.sign({ user_id: user.id.toString() }, "secret", { expiresIn: 360000 })
-
-        // res.status(201).json({ token });
+        const token = jwt.sign({ user }, process.env.DB_SECRET, { expiresIn: 360000 })
+        res.status(201).json( {user ,token: token})
+        
         
      })
          

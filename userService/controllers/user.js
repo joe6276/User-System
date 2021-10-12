@@ -1,6 +1,7 @@
-const sql= require('mssql')
-const db = require("../config/db")
-const bcrypt = require("bcryptjs");
+
+
+
+
 
 
 
@@ -68,34 +69,12 @@ async function updateUser(userid,user){
 }
 
 
-async function addUser(user){
-    try {
-        let pool= await sql.connect(db)
-        const salt = await bcrypt.genSalt(10)
-        const hashpass = await bcrypt.hash(user.password,salt)
-        let users= await pool.request()
-      
-        .input('firstname',sql.VarChar,user.firstname)
-        .input('secondname',sql.VarChar,user.secondname)
-        .input('email',sql.VarChar,user.email)
-        .input('password',sql.VarChar,hashpass)
-        .execute('insertUser')
-        return users.recordsets
-        
 
-        
-    } catch (error) {
-        console.log(error)
-        
-        
-    }
-    
-}
+
 
 module.exports={
     getUsers:getUsers,
     getSpecificUser:getSpecificUser,
     deleteUser:deleteUser,
     updateUser:updateUser,
-    addUser:addUser
 } 
