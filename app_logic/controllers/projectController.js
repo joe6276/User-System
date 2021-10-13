@@ -81,7 +81,6 @@ async function addProject(project){
         
     } catch (error) {
         console.log(error)
-        Json({ message: error.message })
         
     }
     

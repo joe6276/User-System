@@ -1,7 +1,6 @@
-
-
-
-
+const sql= require('mssql')
+const db = require("../config/db")
+const bcrypt = require("bcryptjs")
 
 
 

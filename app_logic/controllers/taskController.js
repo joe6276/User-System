@@ -52,8 +52,6 @@ async function updateTask(takid,task){
         .input('id', sql.Int, takid)
         .input('taskdescription',sql.VarChar,task.taskdescription)
         .input('project',sql.VarChar,task.project)
-        .input('createdat',sql.VarChar,task.createdat)
-        .input('status',sql.VarChar,task.status)
         .input('email',sql.VarChar,task.email)
         .execute('updateTasks')
 
@@ -77,8 +75,6 @@ async function addTask(task){
         let tasks= await pool.request()
         .input('taskdescription',sql.VarChar,task.taskdescription)
         .input('project',sql.VarChar,task.project)
-        .input('createdat',sql.VarChar,task.createdat)
-        .input('status',sql.VarChar,task.status)
         .input('email',sql.VarChar,task.email)
         .execute('addTask')
 

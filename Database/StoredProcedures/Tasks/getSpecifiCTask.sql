@@ -1,10 +1,7 @@
-USE UsersData
-select * FROM Tasks
-
-CREATE PROCEDURE getSpecificTask(@id INT)
+ALTER PROCEDURE getSpecificTask(@id INT)
 AS
 BEGIN
-select * from Tasks WHERE taskid=@id
+select  taskid,taskdescription,project,createdat,status,email from Tasks WHERE taskid=@id AND isdeleted=0
 END;
 GO
 

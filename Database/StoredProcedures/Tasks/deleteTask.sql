@@ -1,12 +1,7 @@
-use UsersData
-select * from Tasks
-
-CREATE PROCEDURE deleteTask(@id INT )
-
+CREATE PROCEDURE deleteTask (@id INT )
 AS
 BEGIN
-
-DELETE FROM Tasks WHERE taskid=@id
+UPDATE Tasks  SET isdeleted = 1 WHERE taskid=@id 
 
 END
 GO

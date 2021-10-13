@@ -1,10 +1,7 @@
-USE [UsersData]
-select * FROM Tasks
-
-CREATE PROCEDURE getTask
+CREATE  PROCEDURE [dbo].[getTask]
 AS
 BEGIN
-select * from Tasks
+select taskid,taskdescription,project,createdat,status,email from Tasks WHERE isdeleted=0
 END
 GO
 
