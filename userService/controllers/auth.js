@@ -39,7 +39,9 @@ async function loginUser(req,res){
         const{email,password}= req.body
     let pool= await sql.connect(db)
     let user= await pool.request()
-    .query(`SELECT * FROM StudentData WHERE email = '${email}'`)
+    .input('email',sql.VarChar,email)
+    .execute('checkemail')
+    //.query(`SELECT * FROM studentData WHERE email = '${email}.t'`)
        const result  = user.recordset[0];
         
         if (!result) res.send({Message: "User does not Exist"})
