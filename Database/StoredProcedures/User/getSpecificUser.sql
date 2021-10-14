@@ -1,12 +1,8 @@
-USE UsersData
-select * from studentData
-
-
 CREATE PROCEDURE getSpecificUser(@id INT)
 AS
 BEGIN
-select * from studentData WHERE id=@id
+select id,firstname ,secondname, email from studentData WHERE id=@id AND  isdeleted=0
 END;
-GO
+
 
 

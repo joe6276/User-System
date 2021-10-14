@@ -1,12 +1,10 @@
-USE UsersData
-select * from Projects
-
-
 CREATE PROCEDURE deleteUser(@id INT)
 AS
 BEGIN
-DELETE FROM studentData WHERE id=@id
+UPDATE studentData SET isdeleted=1
+
+WHERE id=@id
 END;
-GO
+
 
 

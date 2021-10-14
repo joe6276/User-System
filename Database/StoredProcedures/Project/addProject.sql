@@ -1,6 +1,3 @@
-USE UsersData
-select * FROM Projects
-
 CREATE PROCEDURE addProject(@projectname VARCHAR(100),@projectduration VARCHAR(100),
  @email VARCHAR(100))
 AS
@@ -10,5 +7,4 @@ INSERT INTO Projects
 VALUES ( @projectname,@projectduration,@email)
 END
 GO
-
 

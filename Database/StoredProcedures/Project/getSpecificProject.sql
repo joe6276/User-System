@@ -1,10 +1,6 @@
-USE UsersData
-select * from Projects
-
 CREATE PROCEDURE getSpecificProject(@id INT)
 
 AS
 BEGIN
-select * from Projects WHERE projectid=@id
+select projectname,projectduration,email from Projects WHERE projectid=@id AND isdeleted=0
 END;
-GO

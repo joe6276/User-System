@@ -1,18 +1,4 @@
-USE UsersData
-select * from studentData
-
-
-CREATE PROCEDURE getUsers
-AS
-BEGIN
-select * from studentData
-END;
-GO
-
-
-
-
-ALTER PROCEDURE paginateUser
+CREATE PROCEDURE paginateUser
 AS
 DECLARE @PageNumber AS INT
 DECLARE @RowsOfPage AS INT
@@ -33,6 +19,4 @@ select id,firstname ,secondname, email from  studentData
  
 END;
 GO
-EXEC paginateUser
-
 

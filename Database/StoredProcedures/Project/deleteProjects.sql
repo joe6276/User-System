@@ -1,10 +1,7 @@
-USE [UsersData]
-select * FROM Projects
-
 CREATE PROCEDURE deleteProject (@id INT)
 AS
 BEGIN
-DELETE FROM Projects WHERE projectid=@id
+UPDATE Projects SET isdeleted=1 WHERE projectid=@id 
 END;
 GO
 
