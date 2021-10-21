@@ -2,8 +2,6 @@ const sql= require('mssql')
 const db = require("../config/db")
 const bcrypt = require("bcryptjs")
 
-
-
 async function getUsers(){
     try {
         let pool= await sql.connect(db)
@@ -12,6 +10,26 @@ async function getUsers(){
     } catch (error) {
         console.log(error)
         
+    }
+}
+
+async function getAllUsers(){
+    try {
+        let pool= await sql.connect(db)
+        let user= await pool.request().execute('getAllUsers')
+        return user.recordsets
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+async function getAssignedUsers(){
+    try{
+        let pool= await sql.connect(db)
+        let user= await pool.request().execute('getAssignedUsers')
+        return user.recordsets
+    }catch{
+        console.log(error)
     }
 }
 
@@ -76,4 +94,6 @@ module.exports={
     getSpecificUser:getSpecificUser,
     deleteUser:deleteUser,
     updateUser:updateUser,
+    getAssignedUsers:getAssignedUsers,
+    getAllUsers:getAllUsers,
 } 

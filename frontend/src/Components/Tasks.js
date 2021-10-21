@@ -1,7 +1,17 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import { getTasks } from '../redux/actions/taskActions'
 
 const Tasks = () => {
+
+  const { tasks, TasksLoading, tasksError } = useSelector(state => state.tasks)
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    dispatch(getTasks())
+  }, [])
     return (
         <div>
          
@@ -16,7 +26,7 @@ const Tasks = () => {
             <Link to="/viewt" className="navbar-brand  py-2 mr-5" style={{marginLeft:'20px'}}> View Tasks </Link> 
             <Link to="/addp" className="navbar-brand  py-2 mr-5" style={{marginLeft:'20px'}}> Add Projects</Link> 
             <Link to="/addt" className="navbar-brand  py-2 mr-5" style={{marginLeft:'20px'}}> Add Task</Link> 
-         
+            <Link to="/users" className="navbar-brand  py-2 mr-5" style={{marginLeft:'20px'}}> Users </Link> 
             </div>
         </div>
 </nav>
@@ -34,30 +44,26 @@ const Tasks = () => {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Add nav</td>
-      <td>Chally</td>
-      <td>20/09/2021</td>
-      <td>joan@gmail.com</td>
-      <td>
-            
-            <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i></button>
-            <button type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
-            </td>
-    </tr>
-    <tr>
-    <th scope="row">1</th>
-      <td>Add Btn</td>
-      <td>Chally</td>
-      <td>20/09/2021</td>
-      <td>joe@gmail.com</td>
-      <td>
-       
-            <button type="button" class="btn btn-success mx-2"><i className="fas fa-edit"></i></button>
-            <button type="button" class="btn btn-danger mx-2"><i className="fas fa-trash-alt"></i></button>
-            </td>
-    </tr>
+  {TasksLoading ? <h4>Loading..........</h4> :(
+      <>
+            {tasks?.map((task, idx) => (
+              <tr key={task.projectid}>
+                <th scope="row">{idx+1}</th>
+                <td>{task.taskdescription}</td>
+                <td>{task.project}</td>
+                <td>{task.createdat}</td>
+                <td>{task.email}</td>
+                <td>
+                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i></button>
+                  <button type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
+                </td>
+              </tr>
+
+            ))}
+            </>
+            )}
+
+
   </tbody>
 </table>
         </div>

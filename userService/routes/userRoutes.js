@@ -6,9 +6,36 @@ const router=express.Router();
 const jwt = require("jsonwebtoken")
 require('dotenv').config();
 
+
+
+
 router.route("/").get((req,res)=>{
     try {
         user.getUsers().then(result=>{
+            res.json(result[0])
+         })
+    } catch (error) {
+        console.log(error)
+    }
+   
+})
+
+
+
+router.route('/assigned').get((req,res)=>{
+    try{
+        user.getAssignedUsers().then(result=>{
+            res.json(result[0])
+        })
+    }catch(error){
+        console.log(error)
+    }
+})
+
+
+router.route("/all").get((req,res)=>{
+    try {
+        user.getAllUsers().then(result=>{
             res.json(result[0])
          })
     } catch (error) {
@@ -29,7 +56,6 @@ router.route("/:id").get((req,res)=>{
     }
    
 })
-
 
 
 router.post('/signin', auth.loginUser)

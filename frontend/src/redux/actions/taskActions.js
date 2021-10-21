@@ -1,12 +1,12 @@
 
 import axios from "axios";
-import { TASK_GET } from "../types"
+import { TASK_GET,TASK } from "../types"
 
 
 
 
 
-export const loginUserAction = (user) => async dispatch => {
+export const getTasks = ()=> async dispatch => {
     dispatch({
         type:TASK_GET.REQUEST})
     try {
@@ -26,25 +26,26 @@ export const loginUserAction = (user) => async dispatch => {
 
     }
 }
+export const addTask = (task) => async dispatch => {
+    dispatch({
+        type: TASK.REQUEST
+    })
 
-// export const registerUserAction = (user) => async dispatch => {
-//     dispatch({
-//         type: REGISTER.REQUEST
-//     })
-//     try {
-//         await axios.post("http://localhost:5001/users/signup", user)
-//         dispatch({
-//             type: REGISTER.SUCCESS,
-//             message: "User Registered Successfully"
-//         })
+    try {
+        await axios.post("http://localhost:5001/tasks", task)
+        dispatch({
+            type: TASK.SUCCESS,
+            message: "Task  Registered Successfully"
+        })
 
-//     } catch (error) {
-//         console.log({ error });
-//         dispatch({
-//             type: REGISTER.FAIL,
-//             error: "an error occured"
-//         })
+    } 
+    catch (error) {
+        console.log({ error });
+        dispatch({
+            type: TASK.FAIL,
+            error: "an error occured"
+        })
 
-//     }
-// }
+    }
+}
 

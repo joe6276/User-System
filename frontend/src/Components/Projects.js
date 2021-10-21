@@ -23,7 +23,7 @@ const Projects = () => {
             <Link to="/viewt" className="navbar-brand  py-2 mr-5" style={{ marginLeft: '20px' }}> View Tasks </Link>
             <Link to="/addp" className="navbar-brand  py-2 mr-5" style={{ marginLeft: '20px' }}> Add Projects</Link>
             <Link to="/addt" className="navbar-brand  py-2 mr-5" style={{ marginLeft: '20px' }}> Add Task</Link>
-
+            <Link to="/users" className="navbar-brand  py-2 mr-5" style={{marginLeft:'20px'}}> Users </Link> 
           </div>
         </div>
       </nav>
@@ -40,16 +40,7 @@ const Projects = () => {
             </tr>
           </thead>
           <tbody>
-            {/* <tr>
-      <th scope="row">1</th>
-      <td>Joan</td>
-      <td>8 weeks</td>
-      <td>joan@gmail.com</td>
-      <td>
-            <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i></button>
-            <button type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
-            </td>
-    </tr> */}
+           
     {projectsLoading ? <h4>Loading..........</h4> :(
       <>
             {projects?.map((project, idx) => (
@@ -63,6 +54,8 @@ const Projects = () => {
                   <button type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
                 </td>
               </tr>
+
+           
 
             ))}
             </>

@@ -10,6 +10,8 @@ import Homepage from './Components/Homepage';
 import Tasks from './Components/Tasks';
 import AddProject from './Components/AddProject';
 import AddTask from './Components/AddTask';
+import Users from './Components/Users';
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
 <Route path="/viewt" component={Tasks}></Route>
 <Route path="/addp" component={AddProject}></Route>
 <Route path="/addt" component={AddTask}></Route>
+<Route path="/users" component={Users}></Route>
 
   </Switch>
       

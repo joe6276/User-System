@@ -11,12 +11,6 @@ const initialState = {
 const projectReducer  = (state = initialState, action) => {
     switch (action.type) {
 
-        case PROJECT.REQUEST:
-            return { ...state, loading: true, error: "", message: "" }
-        case PROJECT.SUCCESS:
-            return { ...state, loading: false, error: "", message: action.message }
-        case PROJECT.FAIL :
-            return { ...state, loading: false, error: action.error, message: "" }
         case PROJECTS_GET.REQUEST:
             return { ...state, projectsLoading: true, projectsError: "", projects:[] }
         case PROJECTS_GET.SUCCESS:

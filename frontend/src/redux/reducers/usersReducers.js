@@ -1,6 +1,8 @@
-import { LOGIN, REGISTER, RESET_NOTIFICATION } from "../types";
+import { LOGIN, REGISTER, RESET_NOTIFICATION, USERS_GET,AUSERS_GET } from "../types";
 
 const initialState = {
+    users:[],
+    ausers:[],
     user: {},
     loading: false,
     error: "",
@@ -25,6 +27,23 @@ const usersReducer = (state = initialState, action) => {
         case RESET_NOTIFICATION:
             return {...state, message: ""}
 
+        case USERS_GET.REQUEST:
+            return { ...state, usersLoading: true, usersError: "", users:[] }
+        case USERS_GET.SUCCESS:
+            return { ...state, usersLoading: false,users: action.users }
+        case USERS_GET.FAIL :
+            return { ...state, usersLoading: false, usersError: action.error, users: [] }
+
+            
+        case AUSERS_GET.REQUEST:
+            return { ...state, ausersLoading: true, ausersError: "", ausers:[] }
+        case AUSERS_GET.SUCCESS:
+            return { ...state, ausersLoading: false,ausers: action.ausers }
+        case AUSERS_GET.FAIL :
+            return { ...state, ausersLoading: false, ausersError: action.error, ausers: [] }
+
+
+            
         default:
             return { ...state };
     }
