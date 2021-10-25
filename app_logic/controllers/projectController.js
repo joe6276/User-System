@@ -16,12 +16,12 @@ async function getprojects(){
     }
 }
 
-async function getSpecificProject(projectid){
+async function getSpecificProject(email){
     try {
         let pool= await sql.connect(db)
         let projects= await pool.request()
-        .input('id', sql.Int, projectid)
-        .execute('getSpecificProject')
+        .input('email', sql.VarChar, email)
+        .execute('getProjectByEmail')
         //.query("select * from Projects where projectid=@input_parameter")
         return projects.recordsets
     } catch (error) {

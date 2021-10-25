@@ -15,11 +15,11 @@ async function getTasks(){
     }
 }
 
-async function getSpecificTask(takid){
+async function getSpecificTask(email){
     try {
         let pool= await sql.connect(db)
         let tasks= await pool.request()
-        .input('id', sql.Int, takid)
+        .input('email', sql.VarChar, email)
         .execute('getSpecificTask')
         // .query("select * from Tasks where taskid=@input_parameter")
         return tasks.recordsets

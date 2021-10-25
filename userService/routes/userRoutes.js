@@ -1,113 +1,109 @@
-const express = require('express')
-const user= require("../controllers/user")
-
-const auth= require("../controllers/auth")
-const router=express.Router();
-const jwt = require("jsonwebtoken")
 require('dotenv').config();
+const express = require('express')
+const user = require("../controllers/user")
 
+const auth = require("../controllers/auth")
+const router = express.Router();
+const jwt = require("jsonwebtoken")
 
+const authMiddleware = require('../middlewares/auth')
 
-
-router.route("/").get((req,res)=>{
+router.route("/").get((req, res) => {
     try {
-        user.getUsers().then(result=>{
-            res.json(result[0])
-         })
-    } catch (error) {
-        console.log(error)
-    }
-   
-})
-
-
-
-router.route('/assigned').get((req,res)=>{
-    try{
-        user.getAssignedUsers().then(result=>{
+        user.getUsers().then(result => {
             res.json(result[0])
         })
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+
+})
+
+router.route('/assigned').get((req, res) => {
+    try {
+        user.getAssignedUsers().then(result => {
+            res.json(result[0])
+        })
+    } catch (error) {
         console.log(error)
     }
 })
 
-
-router.route("/all").get((req,res)=>{
+router.route("/all").get((req, res) => {
     try {
-        user.getAllUsers().then(result=>{
+        user.getAllUsers().then(result => {
             res.json(result[0])
-         })
+        })
     } catch (error) {
         console.log(error)
     }
-   
-})
-                 
 
-router.route("/:id").get((req,res)=>{
+})
+
+router.route("/:id").get((req, res) => {
 
     try {
-        user.getSpecificUser(req.params.id).then(result=>{
+        user.getSpecificUser(req.params.id).then(result => {
             res.json(result[0])
-         })
+        })
     } catch (error) {
-       console.log(error) 
+        console.log(error)
     }
-   
+
 })
 
 
 router.post('/signin', auth.loginUser)
+router.post('/auth/me',authMiddleware, auth.getLoggedUser)
 
 
-router.route("/:id").delete((req,res)=>{
+router.route("/:id").delete((req, res) => {
 
     try {
-        user.deleteUser(req.params.id).then(result=>{
+        user.deleteUser(req.params.id).then(result => {
             res.status(201).json("User deleted")
-         })
+        })
     } catch (error) {
 
         console.log(error)
         res.status(503).json('No user with that id')
-        
+
     }
-  
-})
- router.route("/:id").put((req,res)=>{
-     try {
-         
-        let user= { ...req.body} ;
-        user.updateUser(req.params.id,user).then(result=>{
-        res.status(201).json('USER Updated')
-     })
-     } catch (error) {
-         console.log(error)
-     }
- 
 
 })
+router.route("/:id").put((req, res) => {
+    try {
 
-router.route("/signup").post((req,res)=>{
-     try {
-        let user= { ...req.body} ;
+        let user = { ...req.body };
+        user.updateUser(req.params.id, user).then(result => {
+            res.status(201).json('USER Updated')
+        })
+    } catch (error) {
+        console.log(error)
+    }
 
-      auth.addUser(user).then(result=>{
-        
-        const token = jwt.sign({ user }, process.env.DB_SECRET, { expiresIn: 360000 })
-        res.status(201).json( {user ,token: token})
-        
-        
-     })
-         
-     } catch (error) {
+
+})
+
+router.route("/signup").post((req, res) => {
+    try {
+        let user = { ...req.body };
+
+        auth.addUser(user).then(result => {
+
+            const token = jwt.sign({ user }, process.env.DB_SECRET, { expiresIn: 360000 })
+            res.status(201).json({ user, token: token })
+
+
+        })
+
+    } catch (error) {
 
         console.log(error)
-         
-     }
- 
+
+    }
+
 
 })
 
-module.exports=router;
+module.exports = router;

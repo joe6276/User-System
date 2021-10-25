@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 
 function verifyToken(req, res, next) {
-
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     if(typeof token !== 'undefined') {
@@ -14,6 +13,10 @@ function verifyToken(req, res, next) {
         const bearerToken = bearer[1];
 
         req.token = bearerToken;
+
+        const decoded = jwt.verify(bearerToken, process.env.DB_SECRET);
+        req.user = decoded;
+
         next();
     } else {
         

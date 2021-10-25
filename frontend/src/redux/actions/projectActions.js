@@ -1,5 +1,5 @@
 import axios from "axios"
-import { PROJECT, PROJECTS_GET } from "../types"
+import { PROJECT, PROJECTS_GET ,PROJECTS_GET_S } from "../types"
 
 export const addProjectaction = (project) => async dispatch => {
     dispatch({
@@ -41,6 +41,30 @@ export const getProjects = ()=>async dispatch =>{
         console.log({ error });
         dispatch({
             type: PROJECTS_GET.FAIL,
+            error: "an error occured"
+        })
+
+    }
+}
+
+
+export const getUserProject = (email)=>async dispatch =>{
+    dispatch({
+        type: PROJECTS_GET_S.REQUEST
+    })
+
+    try {
+        const {data} = await axios.get(`http://localhost:5001/projects/${email}`)
+        dispatch({
+            type: PROJECTS_GET_S.SUCCESS,
+            usersp: data[0]
+        })
+
+    } 
+    catch (error) {
+        console.log({ error });
+        dispatch({
+            type: PROJECTS_GET_S.FAIL,
             error: "an error occured"
         })
 

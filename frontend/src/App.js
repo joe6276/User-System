@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css';
 import { ToastContainer} from 'react-toastify';
 import Navbar from './Components/Navbar';
@@ -11,9 +11,17 @@ import Tasks from './Components/Tasks';
 import AddProject from './Components/AddProject';
 import AddTask from './Components/AddTask';
 import Users from './Components/Users';
+import Userdashboard from './Components/Userdashboard';
+import { useDispatch } from 'react-redux';
+import { getLoggedInUser } from './redux/actions/usersActions';
 
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    let token = localStorage.getItem('token');
+    if(token) dispatch(getLoggedInUser())
+  },[])
   return (
     <div className="App">
 <ToastContainer/>
@@ -32,6 +40,7 @@ function App() {
 <Route path="/addp" component={AddProject}></Route>
 <Route path="/addt" component={AddTask}></Route>
 <Route path="/users" component={Users}></Route>
+<Route path="/userdashboard" component={Userdashboard}></Route>
 
   </Switch>
       

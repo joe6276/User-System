@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router'
 import { registerUserAction, resetNotification } from '../redux/actions/usersActions'
+import { toast } from 'react-toastify'
 
 const Signup = () => {
+
+    const history= useHistory();
     const { loading, error, message } = useSelector(state => state.users)
     const dispatch = useDispatch()
 
@@ -15,7 +19,13 @@ const Signup = () => {
     });
 
     const handleSignup = () => {
+
+        if(!user.firstname || user.secondname ||! user.email ||!user.password){
+            return toast.error("please Fill all Fields ")
+        }
         dispatch(registerUserAction(user))
+        toast.success('User Added Successfully')
+
     }
     const onInputChange = e => {
         setUser(prev => ({ ...prev, [e.target.name]: e.target.value }))

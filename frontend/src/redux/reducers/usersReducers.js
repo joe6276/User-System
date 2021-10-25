@@ -3,6 +3,7 @@ import { LOGIN, REGISTER, RESET_NOTIFICATION, USERS_GET,AUSERS_GET } from "../ty
 const initialState = {
     users:[],
     ausers:[],
+    loguser:{},
     user: {},
     loading: false,
     error: "",
@@ -14,9 +15,11 @@ const usersReducer = (state = initialState, action) => {
         case LOGIN.REQUEST:
             return { ...state, loading: true, error: "", user: {}, message: "" }
         case LOGIN.SUCCESS:
-            return { ...state, loading: false, error: "", user: action.user }
+            return { ...state, loading: false, error: "", loguser: action.loguser, message:action.message }
         case LOGIN.FAIL:
-            return { ...state, loading: false, error: action.error, user: {}, message: "" }
+            return { ...state, loading: false, error: action.error, user: {}}
+
+
 
         case REGISTER.REQUEST:
             return { ...state, loading: true, error: "", message: "" }

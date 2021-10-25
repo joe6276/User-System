@@ -16,10 +16,10 @@ router.route("/").get((req,res)=>{
                  
 
 
-router.route("/:id").get((req,res)=>{
+router.route("/:email").get((req,res)=>{
 
     try {
-        projectController.getSpecificProject(req.params.id).then(result=>{
+        projectController.getSpecificProject(req.params.email).then(result=>{
             res.json(result[0])
          })
     } catch (error) {

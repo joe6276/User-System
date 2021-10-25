@@ -1,9 +1,10 @@
-import {TASK_GET,TASK,RESET_NOTIFICATION } from "../types";
+import {TASK_GET,TASK_GETS,TASK,RESET_NOTIFICATION } from "../types";
 
 const initialState = {
     tasks: [],
     task: {},
     loading: false,
+    usertask:[],
     error: "",
     message: ""
 }
@@ -15,7 +16,14 @@ const taskReducer  = (state = initialState, action) => {
         case TASK_GET.SUCCESS:
             return { ...state, TasksLoading: false,tasks: action.tasks }
         case TASK_GET.FAIL :
-            return { ...state, TasksLoading: false, projectsError: action.error, tasks: [] }
+            return { ...state, TasksLoading: false, taskssError: action.error, tasks: [] }
+
+        case TASK_GETS.REQUEST:
+            return { ...state, TaskLoading: true, tasksError: "", usertasks:[] }
+        case TASK_GETS.SUCCESS:
+            return { ...state, TaskLoading: false,usertasks: action.usertasks }
+        case TASK_GETS.FAIL :
+            return { ...state, TaskLoading: false, tasksError: action.error, usertasks: [] }
 
         case TASK.REQUEST:
             return { ...state, loading: true, error: "", message: "" }

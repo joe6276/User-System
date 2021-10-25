@@ -17,10 +17,10 @@ router.route("/").get((req,res)=>{
                  
 
 
-router.route("/:id").get((req,res)=>{
+router.route("/:email").get((req,res)=>{
 
     try {
-        taskController.getSpecificTask(req.params.id).then(result=>{
+        taskController.getSpecificTask(req.params.email).then(result=>{
             res.json(result[0])
          })
     } catch (error) {

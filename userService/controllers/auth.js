@@ -1,7 +1,7 @@
 const sql= require('mssql')
 const db = require("../config/db")
 const bcrypt = require("bcryptjs")
-
+const jwt = require("jsonwebtoken")
 
 async function addUser(user){
     try {
@@ -44,13 +44,20 @@ async function loginUser(req,res){
     //.query(`SELECT * FROM studentData WHERE email = '${email}.t'`)
        const result  = user.recordset[0];
         
-        if (!result) res.send({Message: "User does not Exist"})
+        if (!result) res.status(400).send({Message: "User does not Exist"})
         const validPassword = await bcrypt.compare(password, result.password.trim());
 
 
-        if (!validPassword) return res.send ({ message: 'Invalid password' });
+        if (!validPassword) return res.status(400).send ({ message: 'Invalid password' });
 
-        res.send({ Message : "Login Successful" })
+        const token = jwt.sign(result, process.env.DB_SECRET, { expiresIn: 360000 })
+
+        res.send({id: result.id, firstname: result.firstname ,
+           secondname: result.secondname,
+            email:result.email,
+            role: result.role,
+            project:result.project            
+            ,Message : "Login Successful", token })
 
     } catch (error) {
         console.log(error)
@@ -62,8 +69,26 @@ async function loginUser(req,res){
 
 }
 
+const getLoggedUser = async(req,res) =>{
+    console.log(req.user);
+    try {
+        let pool= await sql.connect(db)
+    let {recordset} = await pool.request()
+    .input('email',sql.VarChar,req.user.email)
+    .execute('checkemail')
+    
+    const user = recordset[0];
+
+    res.status(200).json({user})
+    } catch (error) {
+        res.status(500).send({error: error.message})
+    }
+}
+
+
 module.exports={
 
     addUser:addUser,
-    loginUser:loginUser
+    loginUser:loginUser,
+    getLoggedUser
 }

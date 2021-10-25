@@ -1,35 +1,65 @@
 import axios from "axios"
-import { LOGIN, REGISTER, RESET_NOTIFICATION,USERS_GET,AUSERS_GET } from "../types"
+
+import { LOGIN, REGISTER, RESET_NOTIFICATION, USERS_GET, AUSERS_GET } from "../types"
 
 
 const loginRequest = () => ({
     type: LOGIN.REQUEST
 })
-export const loginUserAction = (user) => async dispatch => {
-  
-    dispatch(loginRequest())
 
+export const loginUserAction = (user) => async dispatch => {
+    dispatch(loginRequest())
     try {
-        await axios.post("http://localhost:8000/users/signin", user)
+        const { data } = await axios.post("http://localhost:8000/users/signin", user)
+        console.log({data});
+        localStorage.setItem('token', data.token)
         dispatch(
             {
                 type: LOGIN.SUCCESS,
-                message: "User Registered Successfully"   
+                message: "User Logged Successfully",
+                loguser: data
             }
         )
-        console.log('juiujui');
     } catch (error) {
         console.log({ error });
         dispatch({
             type: LOGIN.FAIL,
-            error: "an error occured"
+            error: " Make Sure your password and Email are Valid"
+        })
+
+    }
+}
+
+export const getLoggedInUser = (user) => async dispatch => {
+    dispatch(loginRequest())
+    let token = localStorage.getItem('token');
+    try {
+        const { data } = await axios.post("http://localhost:8000/users/auth/me", {
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+        })
+
+        dispatch(
+            {
+                type: LOGIN.SUCCESS,
+                message: "User Logged Successfully",
+                loguser: data
+            }
+        )
+    } catch (error) {
+        localStorage.removeItem('token');
+        dispatch({
+            type: LOGIN.FAIL,
+            error: error.message || error
         })
 
     }
 }
 
 export const registerUserAction = (user) => async dispatch => {
-   
+
     dispatch({
         type: REGISTER.REQUEST
     })
@@ -40,7 +70,7 @@ export const registerUserAction = (user) => async dispatch => {
             message: "User Registered Successfully"
         })
 
-      
+
 
     } catch (error) {
         console.log({ error });
@@ -51,22 +81,22 @@ export const registerUserAction = (user) => async dispatch => {
 
     }
 }
-export const getUsers = ()=>async dispatch =>{
+export const getUsers = () => async dispatch => {
     dispatch({
         type: USERS_GET.REQUEST
     })
 
     try {
-        const {data} = await axios.get("http://localhost:8000/users")
-        
+        const { data } = await axios.get("http://localhost:8000/users")
+
         dispatch({
             type: USERS_GET.SUCCESS,
             users: data
         })
 
-        
 
-    } 
+
+    }
     catch (error) {
         console.log({ error });
         dispatch({
@@ -77,22 +107,22 @@ export const getUsers = ()=>async dispatch =>{
     }
 }
 
-export const getAssignedUsers = ()=>async dispatch =>{
+export const getAssignedUsers = () => async dispatch => {
     dispatch({
         type: AUSERS_GET.REQUEST
     })
 
     try {
-        const {data} = await axios.get("http://localhost:8000/users/assigned")
-        
+        const { data } = await axios.get("http://localhost:8000/users/assigned")
+
         dispatch({
             type: AUSERS_GET.SUCCESS,
             ausers: data
         })
 
-        
 
-    } 
+
+    }
     catch (error) {
         console.log({ error });
         dispatch({
