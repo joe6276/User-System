@@ -17,6 +17,8 @@ router.route("/").get((req,res)=>{
                  
 
 
+
+
 router.route("/:email").get((req,res)=>{
 
     try {
@@ -30,6 +32,19 @@ router.route("/:email").get((req,res)=>{
 })
 
 
+
+router.route("/:id/task").get((req,res)=>{  
+
+    try {
+        taskController.getTaskById(req.params.id).then(result=>{
+            res.json(result[0])
+         })
+
+    } catch (error) {
+       console.log(error) 
+    }
+   
+})
 router.route("/:id").delete((req,res)=>{
 
     try {
@@ -44,7 +59,7 @@ router.route("/:id").delete((req,res)=>{
   
 })
 
-router.route("/:id").put((req,res)=>{
+router.route("/:id/done").put((req,res)=>{
     try {
       taskController.updateCompleted(req.params.id).then(result=>{
        res.status(201).json('Task Completed ')
@@ -56,19 +71,19 @@ router.route("/:id").put((req,res)=>{
 })
 
 
-//  router.route("/:id").put((req,res)=>{
-//      try {
+ router.route("/:id").put((req,res)=>{
+     try {
          
-//         let task ={... req.body  }
-//        taskController.updateTask(req.params.id,task).then(result=>{
-//         res.status(201).json('Task Updated')
-//      })
-//      } catch (error) {
-//          console.log(error)
-//      }
+        let task ={... req.body  }
+       taskController.updateTask(req.params.id,task).then(result=>{
+        res.status(201).json('Task Updated')
+     })
+     } catch (error) {
+         console.log(error)
+     }
  
 
-// })
+})
 
 
 

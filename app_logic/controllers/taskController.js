@@ -30,6 +30,20 @@ async function getSpecificTask(email){
     }
 }
 
+async function getTaskById(id){
+    
+    try {
+        let pool= await sql.connect(db)
+        let tasks= await pool.request()
+        .input('id', sql.Int, id)
+        .execute('getaTask')
+        return tasks.recordsets
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 
 async function deleteTask(takid){
     try {
@@ -109,5 +123,6 @@ module.exports={
     deleteTask:deleteTask,
     updateTask:updateTask,
     addTask:addTask,
-    updateCompleted:updateCompleted
+    updateCompleted:updateCompleted,
+    getTaskById:getTaskById
 } 

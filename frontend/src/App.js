@@ -11,6 +11,7 @@ import Tasks from './Components/Tasks';
 import AddProject from './Components/AddProject';
 import AddTask from './Components/AddTask';
 import Users from './Components/Users';
+import UpdateTask from './Components/UpdateTask'
 import Userdashboard from './Components/Userdashboard';
 import { useDispatch } from 'react-redux';
 import { getLoggedInUser } from './redux/actions/usersActions';
@@ -41,6 +42,7 @@ function App() {
 <Route path="/addt" component={AddTask}></Route>
 <Route path="/users" component={Users}></Route>
 <Route path="/userdashboard" component={Userdashboard}></Route>
+<Route path="/updatetask/:id" component={UpdateTask}></Route>
 
   </Switch>
       

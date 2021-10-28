@@ -41,7 +41,7 @@ const usersReducer = (state = initialState, action) => {
         case AUSERS_GET.REQUEST:
             return { ...state, ausersLoading: true, ausersError: "", ausers:[] }
         case AUSERS_GET.SUCCESS:
-            return { ...state, ausersLoading: false,ausers: action.ausers }
+            return { ...state, ausersLoading: false,ausers:action.ausers }
         case AUSERS_GET.FAIL :
             return { ...state, ausersLoading: false, ausersError: action.error, ausers: [] }
 

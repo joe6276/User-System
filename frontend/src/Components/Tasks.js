@@ -1,17 +1,34 @@
 import React,{useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { getTasks } from '../redux/actions/taskActions'
+import { deleteTask, getTasks,specificTask} from '../redux/actions/taskActions'
+import UpdateTask from './UpdateTask'
 
 const Tasks = () => {
 
-  const { tasks, TasksLoading, tasksError } = useSelector(state => state.tasks)
+  const { tasks,ctask, TasksLoading, tasksError } = useSelector(state => state.tasks)
+  
   const dispatch = useDispatch()
+console.log();
+  console.log(tasks)
 
 
   useEffect(() => {
     dispatch(getTasks())
   }, [])
+
+  const handleDelete=(taskid)=>{
+    console.log(taskid)
+    dispatch(deleteTask(taskid))
+
+  }
+  const handleupdates=(taskid)=>{
+    console.log(taskid)
+
+  }
+  const handleTask =(taskid)=>{
+  dispatch(specificTask(taskid))
+  }
     return (
         <div>
          
@@ -54,8 +71,8 @@ const Tasks = () => {
                 <td>{task.createdat}</td>
                 <td>{task.email}</td>
                 <td>
-                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i></button>
-                  <button type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
+                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i><Link to={`/updatetask/${task.taskid}`} style={{}}>Edit </Link> </button>
+                  <button  onClick={()=>handleDelete(task.taskid)} type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
                 </td>
               </tr>
 

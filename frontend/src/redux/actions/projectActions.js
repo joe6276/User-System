@@ -1,5 +1,5 @@
 import axios from "axios"
-import { PROJECT, PROJECTS_GET ,PROJECTS_GET_S } from "../types"
+import { PROJECT, PROJECTS_GET ,PROJECTS_GET_S,PROJECT_DELETE } from "../types"
 
 export const addProjectaction = (project) => async dispatch => {
     dispatch({
@@ -65,6 +65,30 @@ export const getUserProject = (email)=>async dispatch =>{
         console.log({ error });
         dispatch({
             type: PROJECTS_GET_S.FAIL,
+            error: "an error occured"
+        })
+
+    }
+}
+export const deleteProject = (projectid)=>async dispatch =>{
+    dispatch({
+        type: PROJECT_DELETE.REQUEST
+    })
+
+    dispatch(getProjects())
+
+    try {
+        await axios.delete(`http://localhost:5001/projects/${projectid}`)
+        dispatch({
+            type: PROJECT_DELETE.SUCCESS,
+            
+        })
+       dispatch(getProjects())
+    } 
+    catch (error) {
+        console.log({ error });
+        dispatch({
+            type: PROJECT_DELETE.FAIL,
             error: "an error occured"
         })
 

@@ -4,17 +4,36 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAssignedUsers, getUsers} from '../redux/actions/usersActions'
 
 const Users = () =>  {
-
   const dispatch = useDispatch()
-  useEffect(() => {
+
+  useEffect(()=>{
     dispatch(getUsers())
     dispatch(getAssignedUsers())
-  }, [])
+  },[dispatch])
+
 
   const { users, ausers, usersLoading, usersError } = useSelector(state => state.users)
+  
+
+  // useEffect(() => {
+  //   if(!users){
+  //     dispatch(getUsers())
+  //   }
+    
+  // }, [users,dispatch])
+
+  // useEffect(() => {
+  //   if(!ausers){
+  //     dispatch(getAssignedUsers())
+  //   }
+    
+  // }, [ausers,dispatch])
 
 
-  console.log(users)
+  
+
+  // console.log(ausers)
+  // console.log(users)
     return (
         <div>
              <nav class="navbar navbar-expand-lg navbar-light bg-light">

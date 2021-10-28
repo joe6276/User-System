@@ -4,38 +4,41 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUserProject } from '../redux/actions/projectActions'
 import { loginUserAction } from '../redux/actions/usersActions'
 import { getTasks, getUserTask, updateTasks } from '../redux/actions/taskActions'
-let taskid;
+import { getAssignedUsers, getUsers} from '../redux/actions/usersActions'
+import { toast } from 'react-toastify'
+
+let user,useremail;
 
 const Userdashboard = () => {
   const { loguser } = useSelector(state => state.users)
   const { usertasks } = useSelector(state => state.tasks)
+  const { usersproject } = useSelector(state => state.projects)
 
   const dispatch = useDispatch();
-  // useEffect(() => {  
-  //   dispatch(getUserTask(loguser.email))
-  // }, [])
-  const { usersproject } = useSelector(state => state.projects)
-  //console.log(usersproject)
-
+ 
   useEffect(() => {
-  }, [usersproject])
-  useEffect(() => {
-  }, [usertasks])
+    if(loguser.user){
+      dispatch(getUserTask(loguser.user.email))
+      dispatch(getUserProject(loguser.user.email))
+      user= loguser.user.firstname
+      useremail= loguser.user.email
 
+    }
+  }, [loguser, dispatch])
 
-  //console.log({ usertasks })
-
-  useEffect(() => {}, [])
-  
+ 
   
    
    const handleUpdate=(taskid)=>{
-
-      dispatch(updateTasks(taskid))
-      dispatch(getTasks())
-      console.log(taskid)
+      dispatch(updateTasks(taskid, useremail))
+      toast.success("Task Completed Successfully ")
+     
     }
        
+
+    const handleComplete=()=>{
+      toast.warning("Task Already Completed")
+    }
  
     
   
@@ -55,7 +58,10 @@ const Userdashboard = () => {
           <div class="navbar-nav">
             <Link className="navbar-brand  py-2  ml-5 mr-5" style={{ height: '50px', width: '50px', marginLeft: '1000px' }}>
               <i class="fa fa-user"
-                aria-hidden="true"></i> Hello {loguser.firstname} </Link>
+                aria-hidden="true"></i> Hello  {user}   
+            
+                </Link>
+                
 
 
           </div>
@@ -64,16 +70,18 @@ const Userdashboard = () => {
 
       <div className="d-flex justify-content-between">
         <div style={{ margin: 'auto', height: '100%', padding: '15px', backgroundColor: '#E7E9ED' }}>
-          <h1> PROJECT</h1>
-          <h3>{usersproject.projectname}</h3>
+          <h3> PROJECT NAME </h3>
+          <h4> {usersproject.projectname}</h4>
           <br />
           <br />
           <br />
-          <h3>{usersproject.projectduration}</h3>
+          <h3>PROJECT DURATION </h3>
+          <h4>{usersproject.projectduration}</h4>
           <br />
           <br />
           <br />
-          <h3>{usersproject.email}</h3>
+          <h3>ASSIGNED TO :</h3>
+          <h4>{usersproject.email}</h4>
           <br />
           <br />
           <br />
@@ -103,13 +111,12 @@ const Userdashboard = () => {
                   <td>
                     <button 
                     type="button" 
-                    onClick={() => handleUpdate(task.taskid)} 
                     className={task.status.trim() === "Completed" ? "btn btn-success mx-2" : "btn btn-primary  mx-2"}
                     >
 
-                      {task.status.trim() === "Completed" ? <i class="fa fa-check" aria-hidden="true"> Completed </i> : 
+                      {task.status.trim() === "Completed" ? <i  onClick={() => handleComplete()}  class="fa fa-check" aria-hidden="true"> Completed </i> : 
                       
-                      <i class="fa fa-undo" aria-hidden="true"> Click here</i>} 
+                      <i  onClick={() => handleUpdate(task.taskid)} class="fa fa-undo" aria-hidden="true"> Complete Task </i>} 
                    
                     </button>
                   </td>

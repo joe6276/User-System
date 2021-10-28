@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getProjects } from '../redux/actions/projectActions'
+import { toast } from 'react-toastify'
+import { deleteProject, getProjects } from '../redux/actions/projectActions'
 
 const Projects = () => {
   const { projects, projectsLoading, projectsError } = useSelector(state => state.projects)
@@ -9,6 +10,14 @@ const Projects = () => {
   useEffect(() => {
     dispatch(getProjects())
   }, [])
+
+
+  const handleDelete=(projectid, projectname)=>{
+    console.log(projectid)
+    dispatch(deleteProject(projectid))
+    toast.success(`Project ${projectname} Deleted Successfully `)
+   
+  }
 
   return (
     <div>
@@ -51,7 +60,7 @@ const Projects = () => {
                 <td>{project.email}</td>
                 <td>
                   <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i></button>
-                  <button type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
+                  <button onClick={()=>handleDelete(project.projectid, project.projectname)} type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
                 </td>
               </tr>
 

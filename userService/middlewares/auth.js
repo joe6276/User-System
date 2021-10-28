@@ -5,6 +5,7 @@ const app = express();
 
 function verifyToken(req, res, next) {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
+   
 
     if(typeof token !== 'undefined') {
 

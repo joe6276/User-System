@@ -28,8 +28,7 @@ const Login = () => {
     useEffect(() => {
         if(loguser.id && loguser.role=='user'){
             history.push('/userdashboard')
-            dispatch(getUserProject(loguser.email))
-            dispatch(getUserTask(loguser.email))
+            
         }else if(loguser.id && loguser.role=='admin'){
             history.push('/viewp')
         }

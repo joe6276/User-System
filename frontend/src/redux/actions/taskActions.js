@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { TASK_GET,TASK,TASK_GETS,UPDATE } from "../types"
+import { TASK_GET,TASK,TASK_GETS,UPDATE,TASK_DELETE,SPTASK,T_UPDATE} from "../types"
 
 
 
@@ -9,7 +9,7 @@ export const getTasks = ()=> async dispatch => {
         type:TASK_GET.REQUEST})
     try {
         const { data } = await axios.get("http://localhost:5001/tasks")
-        console.log({data});
+        
         dispatch({
             type:TASK_GET.SUCCESS,
             tasks:data
@@ -26,17 +26,17 @@ export const getTasks = ()=> async dispatch => {
     }
 }
 
-export const updateTasks = (taskid)=> async dispatch => {
+export const updateTasks = (taskid, email)=> async dispatch => {
     dispatch({
         type:UPDATE.REQUEST})
     try {
-        const { data } = await axios.put(`http://localhost:5001/tasks/${taskid}`)
-        console.log({data});
+         await axios.put(`http://localhost:5001/tasks/${taskid}/done`)
        
         dispatch({
             type:UPDATE.SUCCESS,
             Message:"Task Updated SucessFully "
         })
+        dispatch(getUserTask(email))
 
     } catch (error) {
         console.log({ error });
@@ -48,6 +48,32 @@ export const updateTasks = (taskid)=> async dispatch => {
 
     }
 }
+
+
+export const updateTask = (taskid, task)=> async dispatch => {
+    dispatch({
+        type:T_UPDATE.REQUEST})
+    try {
+         await axios.put(`http://localhost:5001/tasks/${taskid}`, task)
+       
+        dispatch({
+            type:T_UPDATE.SUCCESS,
+            Message:"Task Updated SucessFully "
+        })
+       
+
+    } catch (error) {
+        console.log({ error });
+        dispatch({
+            
+            type:T_UPDATE.FAIL,
+            error:"An error occured"
+        })
+
+    }
+}
+
+
 
 export const getUserTask = (email)=> async dispatch => {
     dispatch({
@@ -64,6 +90,53 @@ export const getUserTask = (email)=> async dispatch => {
         dispatch({
             
             type:TASK_GETS.FAIL,
+            error:"An error occured"
+        })
+
+    }
+}
+export const specificTask= (taskid)=> async dispatch => {
+    dispatch({
+        type:SPTASK.REQUEST})
+    try {
+        const { data }= await axios.get(`http://localhost:5001/tasks/${taskid}/task`)
+    
+
+        dispatch({
+            type:SPTASK.SUCCESS,
+            ctask: data
+           
+        })
+        dispatch(getTasks())
+    } catch (error) {
+        console.log({ error });
+        dispatch({
+            
+            type:SPTASK.FAIL,
+            error:"An error occured"
+        })
+
+    }
+}
+    
+   
+
+export const deleteTask = (taskid)=> async dispatch => {
+    dispatch({
+        type:TASK_DELETE.REQUEST})
+    try {
+        await axios.delete(`http://localhost:5001/tasks/${taskid}`)
+        dispatch({
+            type:TASK_DELETE.SUCCESS,
+            message:"Task Deleted Successfully"
+           
+        })
+        dispatch(getTasks())
+    } catch (error) {
+        console.log({ error });
+        dispatch({
+            
+            type:TASK_DELETE.FAIL,
             error:"An error occured"
         })
 

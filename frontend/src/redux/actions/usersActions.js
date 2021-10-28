@@ -11,7 +11,7 @@ export const loginUserAction = (user) => async dispatch => {
     dispatch(loginRequest())
     try {
         const { data } = await axios.post("http://localhost:8000/users/signin", user)
-        console.log({data});
+        
         localStorage.setItem('token', data.token)
         dispatch(
             {
@@ -34,12 +34,7 @@ export const getLoggedInUser = (user) => async dispatch => {
     dispatch(loginRequest())
     let token = localStorage.getItem('token');
     try {
-        const { data } = await axios.post("http://localhost:8000/users/auth/me", {
-            headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": token,
-              },
-        })
+        const { data } = await axios.post("http://localhost:8000/users/auth/me", {token: `Bearer ${token}` })
 
         dispatch(
             {
@@ -88,6 +83,8 @@ export const getUsers = () => async dispatch => {
 
     try {
         const { data } = await axios.get("http://localhost:8000/users")
+        console.log("here")
+        console.log(data)
 
         dispatch({
             type: USERS_GET.SUCCESS,
@@ -114,6 +111,7 @@ export const getAssignedUsers = () => async dispatch => {
 
     try {
         const { data } = await axios.get("http://localhost:8000/users/assigned")
+        console.log({data})
 
         dispatch({
             type: AUSERS_GET.SUCCESS,
