@@ -1,8 +1,6 @@
 
 import axios from "axios";
-import { TASK_GET,TASK,TASK_GETS } from "../types"
-
-
+import { TASK_GET,TASK,TASK_GETS,UPDATE } from "../types"
 
 
 
@@ -11,6 +9,7 @@ export const getTasks = ()=> async dispatch => {
         type:TASK_GET.REQUEST})
     try {
         const { data } = await axios.get("http://localhost:5001/tasks")
+        console.log({data});
         dispatch({
             type:TASK_GET.SUCCESS,
             tasks:data
@@ -21,6 +20,29 @@ export const getTasks = ()=> async dispatch => {
         dispatch({
             
             type:TASK_GET.FAIL,
+            error:"An error occured"
+        })
+
+    }
+}
+
+export const updateTasks = (taskid)=> async dispatch => {
+    dispatch({
+        type:UPDATE.REQUEST})
+    try {
+        const { data } = await axios.put(`http://localhost:5001/tasks/${taskid}`)
+        console.log({data});
+       
+        dispatch({
+            type:UPDATE.SUCCESS,
+            Message:"Task Updated SucessFully "
+        })
+
+    } catch (error) {
+        console.log({ error });
+        dispatch({
+            
+            type:UPDATE.FAIL,
             error:"An error occured"
         })
 

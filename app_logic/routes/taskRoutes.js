@@ -7,7 +7,7 @@ const router=express.Router();
 router.route("/").get((req,res)=>{
     try {
         taskController.getTasks().then(result=>{
-            res.json(result[0])
+            res.json(result)
          })
     } catch (error) {
         console.log(error)
@@ -43,19 +43,34 @@ router.route("/:id").delete((req,res)=>{
     }
   
 })
- router.route("/:id").put((req,res)=>{
-     try {
-         
-        let task ={... req.body  }
-       taskController.updateTask(req.params.id,task).then(result=>{
-        res.status(201).json('Task Updated')
-     })
-     } catch (error) {
-         console.log(error)
-     }
- 
+
+router.route("/:id").put((req,res)=>{
+    try {
+      taskController.updateCompleted(req.params.id).then(result=>{
+       res.status(201).json('Task Completed ')
+    })
+    } catch (error) {
+        console.log(error)
+    }
 
 })
+
+
+//  router.route("/:id").put((req,res)=>{
+//      try {
+         
+//         let task ={... req.body  }
+//        taskController.updateTask(req.params.id,task).then(result=>{
+//         res.status(201).json('Task Updated')
+//      })
+//      } catch (error) {
+//          console.log(error)
+//      }
+ 
+
+// })
+
+
 
 router.route("/").post((req,res)=>{
      try {

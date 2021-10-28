@@ -42,7 +42,7 @@ const Login = () => {
 
     return (
         <div style={{ width:'500px', margin:'20px auto', backgroundColor:'white'}}>
-             {error && <div className="alert-danger py-2 text-center">{error}</div>}
+             {/* {error && <div className="alert-danger py-2 text-center">{error}</div>} */}
             {message && <div className="alert-success py-2 text-center">{message}</div>}
 
             <h1 style={{marginLeft:'100px'}}> Login User</h1>

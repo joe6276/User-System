@@ -8,7 +8,7 @@ async function getTasks(){
         let pool= await sql.connect(db)
         let tasks= await pool.request().
         execute('getTask')
-        return tasks.recordsets
+        return tasks.recordset
     } catch (error) {
         console.log(error)
         
@@ -22,6 +22,7 @@ async function getSpecificTask(email){
         .input('email', sql.VarChar, email)
         .execute('getSpecificTask')
         // .query("select * from Tasks where taskid=@input_parameter")
+        console.log(tasks.recordset);
         return tasks.recordsets
     } catch (error) {
         console.log(error)
@@ -69,6 +70,20 @@ async function updateTask(takid,task){
 }
 
 
+
+async function updateCompleted(id){
+    try {
+        let pool= await sql.connect(db)
+        let tasks= await pool.request()
+        .input('id', sql.Int, id)
+        .execute('updateCompleted')
+        return tasks.recordsets
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 async function addTask(task){
     try {
         let pool= await sql.connect(db)
@@ -93,5 +108,6 @@ module.exports={
     getSpecificTask:getSpecificTask,
     deleteTask:deleteTask,
     updateTask:updateTask,
-    addTask:addTask
+    addTask:addTask,
+    updateCompleted:updateCompleted
 } 

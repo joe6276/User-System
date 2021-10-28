@@ -1,4 +1,4 @@
-import {TASK_GET,TASK_GETS,TASK,RESET_NOTIFICATION } from "../types";
+import {TASK_GET,TASK_GETS,TASK,RESET_NOTIFICATION, UPDATE} from "../types";
 
 const initialState = {
     tasks: [],
@@ -24,6 +24,14 @@ const taskReducer  = (state = initialState, action) => {
             return { ...state, TaskLoading: false,usertasks: action.usertasks }
         case TASK_GETS.FAIL :
             return { ...state, TaskLoading: false, tasksError: action.error, usertasks: [] }
+
+        case UPDATE.REQUEST:
+            return { ...state, uTaskLoading: true, utasksError: "" }
+        case UPDATE.SUCCESS:
+            return { ...state, uTaskLoading: false,message: action.message }
+        case UPDATE.FAIL :
+            return { ...state, uTaskLoading: false, utasksError: action.error}
+
 
         case TASK.REQUEST:
             return { ...state, loading: true, error: "", message: "" }

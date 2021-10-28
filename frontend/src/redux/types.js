@@ -49,6 +49,11 @@ export const TASK_GETS = {
     SUCCESS: "PROJECTS_GETS_SUCCESS",
     FAIL: "PROJECTS_GETS_FAIL",
 }
+export const  UPDATE={
+    REQUEST: "UPDATE_REQUEST",
+    SUCCESS: "UPDATE_SUCCESS",
+    FAIL: "UPDATE_FAIL", 
+}
 
 export const TASK = {
     REQUEST: "CREATE_TASK_REQUEST",

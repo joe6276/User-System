@@ -20,9 +20,9 @@ const Signup = () => {
 
     const handleSignup = () => {
 
-        if(!user.firstname || user.secondname ||! user.email ||!user.password){
-            return toast.error("please Fill all Fields ")
-        }
+        // if(!user.firstname || user.secondname ||! user.email ||!user.password){
+        //     return toast.error("please Fill all Fields ")
+        // }
         dispatch(registerUserAction(user))
         toast.success('User Added Successfully')
 
