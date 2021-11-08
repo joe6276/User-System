@@ -20,11 +20,14 @@ const Userdashboard = () => {
     if(loguser.user){
       dispatch(getUserTask(loguser.user.email))
       dispatch(getUserProject(loguser.user.email))
-      user= loguser.user.firstname
+      //user= loguser.user.firstname
       useremail= loguser.user.email
 
     }
   }, [loguser, dispatch])
+
+
+  user= loguser.firstname
 
  
   

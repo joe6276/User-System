@@ -25,6 +25,7 @@ const Signup = () => {
         // }
         dispatch(registerUserAction(user))
         toast.success('User Added Successfully')
+        history.push('/login')
 
     }
     const onInputChange = e => {

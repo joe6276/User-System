@@ -6,7 +6,7 @@ const router=express.Router();
 router.route("/").get((req,res)=>{
     try {
         projectController.getprojects().then(result=>{
-            res.json(result[0])
+            res.json(result)
          })
     } catch (error) {
         console.log(error)
@@ -27,6 +27,19 @@ router.route("/:email").get((req,res)=>{
     }
    
 })
+
+router.route("/:id/done").get((req,res)=>{
+
+    try {
+        projectController.getProjectById(req.params.id).then(result=>{
+            res.json(result[0])
+         })
+    } catch (error) {
+       console.log(error) 
+    }
+   
+})
+
 
 
 router.route("/:id").delete((req,res)=>{

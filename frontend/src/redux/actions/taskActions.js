@@ -60,7 +60,7 @@ export const updateTask = (taskid, task)=> async dispatch => {
             type:T_UPDATE.SUCCESS,
             Message:"Task Updated SucessFully "
         })
-       
+       dispatch(getTasks())
 
     } catch (error) {
         console.log({ error });

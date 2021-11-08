@@ -1,10 +1,11 @@
-import { PROJECT, PROJECTS_GET, PROJECTS_GET_S,PROJECT_DELETE} from "../types";
+import { PROJECT, PROJECTS_GET, PROJECTS_GET_S,PROJECT_DELETE,P_UPDATE,STPROJECT} from "../types";
 
 const initialState = {
     projects: [],
     project: {},
     loading: false,
     usersproject:[],
+    cproject:{},
     error: "",
     message: ""
 }
@@ -34,6 +35,22 @@ const projectReducer  = (state = initialState, action) => {
             return { ...state, projectLoading: false,projectError: ""}
         case PROJECT_DELETE.FAIL :
             return { ...state, projectLoading: false, projectError: action.error}
+
+        case P_UPDATE.REQUEST:
+            return { ...state, Loading: true, updateError: "" }
+        case P_UPDATE.SUCCESS:
+            return { ...state, Loading: false,message: action.message }
+        case P_UPDATE.FAIL :
+            return { ...state, Loading: false, updateError: action.error}
+
+
+
+        case STPROJECT.REQUEST:
+                return { ...state,  tasksError: "", cproject:{} }
+        case STPROJECT.SUCCESS:
+                return { ...state, cproject: action.cproject }
+        case STPROJECT.FAIL :
+                return { ...state,  tasksError: action.error, cproject: {} }
 
         default:
             return { ...state };

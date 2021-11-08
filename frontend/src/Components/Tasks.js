@@ -71,7 +71,8 @@ console.log();
                 <td>{task.createdat}</td>
                 <td>{task.email}</td>
                 <td>
-                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i><Link to={`/updatetask/${task.taskid}`} style={{}}>Edit </Link> </button>
+                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i>
+                  <Link to={`/updatetask/${task.taskid}`} style={{color:'white'}}>Edit </Link> </button>
                   <button  onClick={()=>handleDelete(task.taskid)} type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
                 </td>
               </tr>

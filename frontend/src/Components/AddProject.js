@@ -34,7 +34,12 @@ const AddProject = () => {
       if(!project.projectname || !project.projectduration || !project.email){
         return toast.error('Please Fill in all Fields..')
     }
-        dispatch(addProjectaction(project))
+        const p = {
+            projectname: project.projectname.trim(),
+        projectduration: project.projectduration.trim(),
+        email: project.email.trim()
+        }
+        dispatch(addProjectaction(p))
         toast.success('Project Successfully Added ')
         history.push('/viewp')
        

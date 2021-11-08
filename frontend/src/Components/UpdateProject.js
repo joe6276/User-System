@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useHistory, useParams } from 'react-router'
-import { getProjects } from '../redux/actions/projectActions'
+import { getProjects, specificProject, updateProject } from '../redux/actions/projectActions'
 import { addTask, specificTask,updateTask } from '../redux/actions/taskActions'
 import { getAssignedUsers, getUsers } from '../redux/actions/usersActions'
-const UpdateTask = () => {
+const UpdateProject = () => {
     const {id} = useParams()
+    const dispatch = useDispatch()
+    const history=useHistory()
+  
     
   useEffect(()=>{
     dispatch(getUsers())
@@ -15,76 +18,81 @@ const UpdateTask = () => {
   },[])
     
     const { tasks,ctask, TasksLoading, tasksError } = useSelector(state => state.tasks)
-    const { projects, projectsLoading, projectsError } = useSelector(state => state.projects)
+    const { projects,cproject, projectsLoading, projectsError } = useSelector(state => state.projects)
     const { users,ausers, usersLoading, usersError } = useSelector(state => state.users)
-        // const [projects, setProjects] = useState([])
-    const dispatch = useDispatch()
-    const history=useHistory()
 
-    const [task, setTask] = useState({
-        taskdescription: "",
-        project: "",
+
+    const [project, setProject] = useState({
+        projectname: "",
+        projectduration: "",
         email: "",
+       
     });
 
     useEffect(() => {
-        dispatch(specificTask(id))
+        dispatch(specificProject(id))
     }, [dispatch, id])
 
     
 
     useEffect(() => {
-        if(ctask.length > 0){
-            let t= ctask[0];
-            setTask(prev=> ({...prev, taskdescription: t.taskdescription}));
+        if(cproject.length > 0){
+            let t= cproject[0];
+            setProject(prev=> ({...prev, projectname: t.projectname ,email:t.email, projectduration: t.projectduration
+                
+                
+            }));
+             
         }
-    }, [ctask])
+    }, [cproject])
 
-    let t= ctask[0];
+    let y= cproject[0];
+   
 
-    useEffect(() => {
-        if(!projects){
-            dispatch(getProjects())
-        }
-    }, [projects, dispatch])
+
+    // useEffect(() => {
+    //     if(!projects){
+    //         dispatch(getProjects())
+    //     }
+    // }, [projects, dispatch])
 
 
     
-    useEffect(() => {
-        if(!ausers){
-            dispatch(getAssignedUsers())
-        }
-    }, [ausers, dispatch])
+    // useEffect(() => {
+    //     if(!ausers){
+    //         dispatch(getAssignedUsers())
+    //     }
+    // }, [ausers, dispatch])
     
    
-    useEffect(() => {
-        if(!users){
-            dispatch(getUsers())
-        }
-    }, [users, dispatch])
+    // useEffect(() => {
+    //     if(!users){
+    //         dispatch(getUsers())
+    //     }
+    // }, [users, dispatch])
 
-    console.log(users)
+    // console.log(users)
 
-
-    
 
     
+
     
     
-    const handleupdateTask = () => {
+    
+    const handleupdateProject = () => {
        
-        if(!task.taskdescription || !task.project || !task.email){
+        if(!project.projectname || !project.projectduration || !project.email){
             return toast.error('Please Fill in all Fields..')
         }
         
-        dispatch(updateTask(id,task))
+        dispatch(updateProject(id,project))
         toast.success('Task Successfully Added ')
-        history.push('/viewt')
-        console.log(task)
+        history.push('/viewp')
+        
     }
 
     const onInputChange = e => {
-        setTask(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        setProject(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
     return (
         <div>
@@ -108,64 +116,50 @@ const UpdateTask = () => {
 
 
                 <div style={{ width: '500px', marginTop: '20px', backgroundColor: 'white', marginLeft: '500px' }}>
-                    <h1 style={{ marginLeft: '100px' }}> Update  Task </h1>
+                    <h1 style={{ marginLeft: '100px' }}> Update Project</h1>
                     <div class="mb-3 mt-4">
-                        <label for="formGroupExampleInput" class="form-label">Task Description</label>
+                        <label for="formGroupExampleInput" class="form-label">Project Name</label>
                         <input type="text" class="form-control"
-                            name="taskdescription"
-                            value={task.taskdescription.trim()}
+                            name="projectname"
+                            value={project.projectname.trim()}
+                            onChange={onInputChange}
+                            id="formGroupExampleInput"
+                            placeholder="Enter update" />
+                    </div>
+                    <div class="mb-3 mt-4">
+                        <label for="formGroupExampleInput" class="form-label">Project Duration</label>
+                        <input type="text" class="form-control"
+                            name="projectduration"
+                            value={project.projectduration.trim()}
                             onChange={onInputChange}
                             id="formGroupExampleInput"
                             placeholder="Enter update" />
                     </div>
 
-                    <div class="mb-3 mt-4">
-                        <label for="formGroupExampleInput" class="form-label">Project</label>
-                        <select 
-                        onChange={onInputChange} 
-                        value={task.project.trim()}
-                        name="project" 
-                        class="form-control" 
-                        id="" >
-                            <option value="">Select Project </option>
-                            <>
-                                {projects?.map((project) => (
-                                    <option key={project.projectid} value={project.projectname}>{project.projectname}</option>
 
-                                ))}
-                            </>
-                        </select>
-                    </div>
-
+                    
                     <div class="mb-3 mt-4">
 
                     <select 
                         onChange={onInputChange} 
-                        value={task.email.trim()}
+                        value={project.email.trim()}
                         name="email" 
                         class="form-control" 
                         id="" >
-                    <option value="">Select User </option>
-                            <>
-                                {users?.map((user) => (
-                                    <option key={user.id} value={user.email}>{user.email}</option>
+                            <option value="">Select User </option>
+                            <option  value={cproject[0]?.email}>{cproject[0]?.email}</option>
+                            {users?.map((user) => (
+                                <option key={user.id} value={user.email}>{user.email}</option>
 
-                                ))}
-                                
-                                {ausers?.map((user) => (
-                                    <option key={user.id} value={user.email}>{user.email}</option>
-
-                                ))}
-
-                        
-                            </>
+                            ))}
+                           
                         </select>
                         </div>
-                    <button type="submit" onClick={handleupdateTask} class="btn btn-primary">Update Task</button>
+                    <button type="submit" onClick={handleupdateProject} class="btn btn-primary">Update Project</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default UpdateTask
+export default UpdateProject

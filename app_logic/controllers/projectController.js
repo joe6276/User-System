@@ -9,7 +9,15 @@ async function getprojects(){
         let pool= await sql.connect(db)
         let projects= await pool.request().
         execute('getProjects')
-        return projects.recordsets
+        const p =projects.recordset.map(p=>{
+            return {
+                projectid: p.projectid,
+                projectname: p.projectname.trim(),
+                projectduration: p.projectduration.trim(),
+                email: p.email.trim()
+            }
+        })
+        return p
     } catch (error) {
         console.log(error)
         
@@ -29,6 +37,21 @@ async function getSpecificProject(email){
         
     }
 }
+
+async function getProjectById(id){
+    try {
+        let pool= await sql.connect(db)
+        let projects= await pool.request()
+        .input('id', sql.VarChar, id)
+        .execute('getSpecificProject')
+        //.query("select * from Projects where projectid=@input_parameter")
+        return projects.recordsets
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
 
 
 async function deleteProject(projid){
@@ -77,6 +100,7 @@ async function addProject(project){
         .input('email',sql.VarChar,project.email)
         .execute('addProject')
         //.query('INSERT INTO Projects(projectname,projectduration,email) VALUES( @projectname, @projectduration, @email)')
+        console.log(projects.recordsets);
         return projects.recordsets
         
     } catch (error) {
@@ -91,5 +115,6 @@ module.exports={
     getSpecificProject:getSpecificProject,
     deleteProject:deleteProject,
     updateProject:updateProject,
-    addProject:addProject
+    addProject:addProject,
+    getProjectById:getProjectById
 } 

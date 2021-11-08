@@ -59,8 +59,10 @@ const Projects = () => {
                 <td>{project.projectduration}</td>
                 <td>{project.email}</td>
                 <td>
-                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i></button>
-                  <button onClick={()=>handleDelete(project.projectid, project.projectname)} type="button" class="btn btn-danger mx-2"><i className="far fa-trash-alt"></i></button>
+                  <button type="button" class="btn btn-success mx-2"><i className="fas  fa-edit "></i>
+                   <Link to={`/updateproject/${project.projectid}`} style={{color:'white'}}>Edit </Link> </button>
+                  <button onClick={()=>handleDelete(project.projectid, project.projectname)} type="button" class="btn btn-danger mx-2">
+                    <i className="far fa-trash-alt"></i></button>
                 </td>
               </tr>
 

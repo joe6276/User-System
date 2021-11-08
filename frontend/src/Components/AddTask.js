@@ -9,6 +9,9 @@ import { getAssignedUsers, getUsers } from '../redux/actions/usersActions'
 const AddTask = () => {
 
     // const [projects, setProjects] = useState([])
+    const { projects, projectsLoading, projectsError } = useSelector(state => state.projects)
+    const { users,ausers, usersLoading, usersError } = useSelector(state => state.users)
+    
     const dispatch = useDispatch()
     const history=useHistory()
 
@@ -20,8 +23,7 @@ const AddTask = () => {
 
     }, [])
 
-    const { projects, projectsLoading, projectsError } = useSelector(state => state.projects)
-    const { users,ausers, usersLoading, usersError } = useSelector(state => state.users)
+
 
     console.log({ projects });
 
