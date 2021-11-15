@@ -15,20 +15,31 @@ const Userdashboard = () => {
   const { usersproject } = useSelector(state => state.projects)
 
   const dispatch = useDispatch();
+  console.log(loguser.user)
  
   useEffect(() => {
-    if(loguser.user){
-      dispatch(getUserTask(loguser.user.email))
-      dispatch(getUserProject(loguser.user.email))
-      //user= loguser.user.firstname
-      useremail= loguser.user.email
-
+    console.log(loguser);
+    if(loguser){
+      
+      console.log("Loadinnggg....");
+      dispatch(getUserProject(loguser.email))
+      dispatch(getUserTask(loguser.email))
+      //user= loguser.firstname
+      useremail= loguser.email
+      user=loguser.firstname
     }
-  }, [loguser, dispatch])
+  }, [loguser.email, dispatch])
+
+  // useEffect(() => {
+
+  //   if(usertasks.length == 0){
+  //     console.log("No Tasks")
+  //   }
 
 
-  user= loguser.firstname
+  // }, [usertasks])
 
+// console.log(usertasks)
  
   
    
@@ -61,7 +72,7 @@ const Userdashboard = () => {
           <div class="navbar-nav">
             <Link className="navbar-brand  py-2  ml-5 mr-5" style={{ height: '50px', width: '50px', marginLeft: '1000px' }}>
               <i class="fa fa-user"
-                aria-hidden="true"></i> Hello  {user}   
+                aria-hidden="true"></i> Hello  {user ? user: loguser.firstname}   
             
                 </Link>
                 
@@ -74,17 +85,17 @@ const Userdashboard = () => {
       <div className="d-flex justify-content-between">
         <div style={{ margin: 'auto', height: '100%', padding: '15px', backgroundColor: '#E7E9ED' }}>
           <h3> PROJECT NAME </h3>
-          <h4> {usersproject.projectname}</h4>
+          <h4> {usersproject?usersproject.projectname :"No Project" }</h4>
           <br />
           <br />
           <br />
           <h3>PROJECT DURATION </h3>
-          <h4>{usersproject.projectduration}</h4>
+          <h4>{usersproject?usersproject.projectduration:""}</h4>
           <br />
           <br />
           <br />
           <h3>ASSIGNED TO :</h3>
-          <h4>{usersproject.email}</h4>
+          <h4>{usersproject? usersproject.email: ""}</h4>
           <br />
           <br />
           <br />
@@ -104,13 +115,15 @@ const Userdashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {usertasks?.map((task, idx) => (
+             
+              {usertasks ?.map((task, idx) => (
                 <tr key={task.taskid}>
                   <th scope="row">{idx + 1}</th>
-                  <td>{task.taskdescription}</td>
+                  <td>{task.taskdescription? task.taskdescription: "No Task Available"}</td>
                   <td>{task.project}</td>
                   <td>{task.createdat}</td>
                   <td>{task.email}</td>
+                 
                   <td>
                     <button 
                     type="button" 

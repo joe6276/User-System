@@ -4,6 +4,8 @@ import { useHistory } from 'react-router'
 import { getUserProject } from '../redux/actions/projectActions'
 import { getUserTask } from '../redux/actions/taskActions'
 import { loginUserAction } from '../redux/actions/usersActions'
+import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 
 const Login = () => {
@@ -18,7 +20,9 @@ const Login = () => {
         password: ""
     });
     const handleLogin = () => {
-       
+        if(! user.email ||!user.password){
+            return toast.error("Please Fill all Fields ")
+        }
         dispatch( loginUserAction(user))   
        
         
@@ -27,6 +31,7 @@ const Login = () => {
 
     useEffect(() => {
         if(loguser.id && loguser.role=='user'){
+            toast.success('Logged in Successfully')
             history.push('/userdashboard')
             
         }else if(loguser.id && loguser.role=='admin'){
@@ -40,11 +45,19 @@ const Login = () => {
     }
 
     return (
-        <div style={{ width:'500px', margin:'20px auto', backgroundColor:'white'}}>
-             {/* {error && <div className="alert-danger py-2 text-center">{error}</div>} */}
-            {message && <div className="alert-success py-2 text-center">{message}</div>}
-
-            <h1 style={{marginLeft:'100px'}}> Login User</h1>
+        <div  style={{ marginTop:'0px'}} className="d-flex ">
+        <div style={{marginLeft:'0px', height:'400px'}}>
+        <img  style={{marginLeft:'0px', width:'600px', height:'600px'}} src ="https://cdn.pixabay.com/photo/2017/10/11/11/43/multitasking-2840792__340.jpg"/>
+        </div>
+        <div style={{ width:'600px', marginLeft:'40px', marginTop:'80px', backgroundColor:'white'}}>
+             {error && <div className="alert-danger py-2 text-center">{error}</div>}
+            {/* {message && <div className="alert-success py-2 text-center">{message}</div>} */}
+          
+            
+         
+            
+           
+      <h1>  Login User </h1>
             <div  class="mb-3 mt-4">
                 <label for="formGroupExampleInput" class="form-label">Email</label>
                 <input type="text" class="form-control" 
@@ -56,7 +69,7 @@ const Login = () => {
                 </div>
                 <div class="mb-4">
                 <label for="formGroupExampleInput2" class="form-label">Password</label>
-                <input type="text" class="form-control"
+                <input type="password" class="form-control"
                  id="formGroupExampleInput2"
                  name="password"
                  value={user.password}
@@ -64,7 +77,12 @@ const Login = () => {
                   placeholder="Password"/>
                 </div>
                 <button type="submit" onClick={handleLogin} class="btn btn-primary">Login</button>
+                 <br/>
+                <br/>
+                <Link to="/signup"  style={{ fontSize:'15px'}} className="navbar-brand  py-2 mr-5"> Not a Member ? Please Sign-UP</Link>
         </div>
+        </div >
+       
     )
 }
 

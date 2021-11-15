@@ -11,6 +11,7 @@ import Tasks from './Components/Tasks';
 import AddProject from './Components/AddProject';
 import AddTask from './Components/AddTask';
 import Users from './Components/Users';
+import Footer from './Components/Footer';
 import UpdateTask from './Components/UpdateTask'
 import UpdateProject from './Components/UpdateProject'
 import Userdashboard from './Components/Userdashboard';
@@ -33,6 +34,7 @@ function App() {
 <Route exact path="/">
 <Navbar/>
 <Login/>
+
 </Route>
 
 <Route path="/signup" component={Signup}></Route>

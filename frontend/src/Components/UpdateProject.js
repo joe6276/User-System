@@ -86,7 +86,7 @@ const UpdateProject = () => {
         }
         
         dispatch(updateProject(id,project))
-        toast.success('Task Successfully Added ')
+        toast.success('Project updated Successfully ')
         history.push('/viewp')
         
     }
