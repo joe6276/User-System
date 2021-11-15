@@ -5,13 +5,21 @@ const app= express();
 const regTask  = require('./emailService/registration')
 const sentProject  = require('./emailService/tasks')
 const sentEmail= require('./emailService/sentTask')
+const sentUpdate= require('./emailService/updateProject')
+const ejectEmail= require('./emailService/eject')
 const cron = require('node-cron');
 const run = async()=>{
   cron.schedule('*/10 * * * * *', async() => {
     console.log("running")
+
+
     await regTask()
     await sentProject()
     await sentEmail()
+    await sentUpdate()
+    // await ejectEmail()
+    
+   
  
   });
 }

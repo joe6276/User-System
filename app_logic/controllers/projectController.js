@@ -97,7 +97,7 @@ async function addProject(project){
         let projects= await pool.request()
         .input('projectname',sql.VarChar,project.projectname)
         .input('projectduration',sql.VarChar,project.projectduration)
-        .input('email',sql.VarChar,project.email)
+        .input('email',sql.VarChar,project.email) 
         .execute('addProject')
         //.query('INSERT INTO Projects(projectname,projectduration,email) VALUES( @projectname, @projectduration, @email)')
         console.log(projects.recordsets);
